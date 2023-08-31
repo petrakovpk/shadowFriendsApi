@@ -17,7 +17,7 @@ async def create_user(db: AsyncSession, user: UserCreate) -> UserInDb:
 
 async def update_user(db: AsyncSession, user: UserUpdate) -> UserInDb:
     user_in_db = await get_user(db=db, user_uid=user.uid)
-    user_in_db.update(user, commit=True, db=db)
+    await user_in_db.update(user, commit=True, db=db)
     return user_in_db
 
 async def get_recommended_shadow_questions(db: AsyncSession, user_uid: str) -> [ShadowQuestionInDb]:

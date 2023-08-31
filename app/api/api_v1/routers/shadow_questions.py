@@ -12,14 +12,14 @@ from schemas import ShadowQuestionCreate, ShadowQuestionUpdate, ShadowQuestion, 
 router = APIRouter()
 
 @router.get("/{shadow_question_uuid}", response_model=ShadowQuestion, status_code=200)
-def get_shadow_question(
+async def get_shadow_question(
         shadow_question_uuid: UUID4,
         db: Session = Depends(get_db),
         firebase_user: auth.UserRecord = Depends(get_firebase_auth)
 ):
     check_user_authorization(firebase_user)
 
-    shadow_question_in_db = crud.shadow_questions.get_shadow_question(db=db, shadow_question_uuid=shadow_question_uuid)
+    shadow_question_in_db = await crud.shadow_questions.get_shadow_question(db=db, shadow_question_uuid=shadow_question_uuid)
 
     if shadow_question_in_db is None:
         raise HTTPException(status_code=404, detail="Not found")
@@ -51,13 +51,13 @@ async def update_shadow_question(
 
 
 @router.get("/{shadow_question_uuid}/shadowAnswers", response_model=List[ShadowAnswer], status_code=200)
-def get_shadow_question(
+async def get_shadow_question(
         shadow_question_uuid: UUID4,
         db: Session = Depends(get_db),
         firebase_user: auth.UserRecord = Depends(get_firebase_auth)
 ):
     check_user_authorization(firebase_user)
 
-    result = crud.shadow_questions.get_shadow_answers(db=db, shadow_question_uuid=shadow_question_uuid)
+    result = await crud.shadow_questions.get_shadow_answers(db=db, shadow_question_uuid=shadow_question_uuid)
 
     return result

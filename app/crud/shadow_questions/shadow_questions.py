@@ -16,9 +16,9 @@ async def get_shadow_question(db: AsyncSession, shadow_question_uuid: uuid4) -> 
 
 async def create_shadow_question(db: AsyncSession, shadow_question: ShadowQuestionCreate) -> Optional[ShadowQuestionInDb]:
     user_in_db = ShadowQuestionInDb(**shadow_question.__dict__)
-    db.add(user_in_db)
+    await db.add(user_in_db)
     await db.commit()
-    db.refresh(user_in_db)
+    await db.refresh(user_in_db)
     return user_in_db
 
 async def get_shadow_answers(db: AsyncSession, shadow_question_uuid: uuid4) -> [ShadowAnswerInDb]:
@@ -30,5 +30,5 @@ async def get_shadow_answers(db: AsyncSession, shadow_question_uuid: uuid4) -> [
 
 async def update_shadow_question(db: AsyncSession, shadow_question_uuid: uuid4, shadow_question: ShadowQuestionUpdate) -> Optional[ShadowQuestionInDb]:
     shadow_question_in_db = await get_shadow_question(db=db, shadow_question_uuid=shadow_question_uuid)
-    await shadow_question_in_db.update(shadow_question=shadow_question, commit=True, db=db)
+    await shadow_question_in_db.update(shadow_question, commit=True, db=db)
     return shadow_question_in_db
