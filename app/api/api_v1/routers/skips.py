@@ -11,14 +11,14 @@ from schemas import SkipCreate, Skip
 router = APIRouter()
 
 @router.get("/{skip_uuid}", response_model=Skip, status_code=200)
-def get_skip(
+async def get_skip(
         skip_uuid: UUID4,
         db: Session = Depends(get_db),
         firebase_user: auth.UserRecord = Depends(get_firebase_auth)
 ):
     check_user_authorization(firebase_user)
 
-    skip_in_db = crud.skips.get_skip(db=db, skip_uuid=skip_uuid)
+    skip_in_db = await crud.skips.get_skip(db=db, skip_uuid=skip_uuid)
 
     if skip_in_db is None:
         raise HTTPException(status_code=404, detail="Not found")
@@ -26,7 +26,7 @@ def get_skip(
     return skip_in_db
 
 @router.post("/{skip_uuid}", response_model=Skip, status_code=200)
-def create_skip(
+async def create_skip(
         skip_uuid: UUID4,
         skip: Skip,
         db: Session = Depends(get_db),
@@ -34,12 +34,12 @@ def create_skip(
 ):
     check_user_authorization(firebase_user)
 
-    skip_in_db = crud.skips.get_skip(db=db, skip_uuid=skip_uuid)
+    skip_in_db = await crud.skips.get_skip(db=db, skip_uuid=skip_uuid)
 
     if skip_in_db is not None:
         raise HTTPException(405, "Skip already exists")
 
     skip = SkipCreate(**skip.__dict__)
-    result = crud.skips.create_skip(db=db, skip=skip)
+    result = await crud.skips.create_skip(db=db, skip=skip)
 
     return result

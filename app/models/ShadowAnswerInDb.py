@@ -14,12 +14,3 @@ class ShadowAnswerInDb(Base):
     last_update = Column("last_update", TIMESTAMP(timezone=True), nullable=False)
     user_uid = Column("user_uid", VARCHAR, nullable=False)
     question_uuid = Column("question_uuid", UUID)
-
-    def update(self, user: ShadowAnswerUpdate, commit: bool, db: Session):
-        for field, value in user.dict(exclude_unset=True).items():
-            setattr(self, field, value)
-
-        if commit:
-            db.merge(self)
-            db.commit()
-            db.refresh(self)
