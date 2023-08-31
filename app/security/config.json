@@ -1,0 +1,7 @@
+{
+    "POSTGRES_USER": "petrakovpk",
+    "POSTGRES_PASSWORD": "Ef9iei!!",
+    "POSTGRES_SERVER": "194.67.103.134",
+    "POSTGRES_PORT": "5432",
+    "POSTGRES_DB": "shadow_friends"
+}

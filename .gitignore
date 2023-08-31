@@ -8,6 +8,9 @@ __pycache__/
 # C extensions
 *.so
 
+# security
+app/security
+
 # Distribution / packaging
 .Python
 build/
