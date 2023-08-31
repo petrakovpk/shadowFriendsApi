@@ -6,9 +6,9 @@ from uuid import UUID
 from sqlalchemy import event
 from sqlalchemy.orm import Session
 from firebase_admin import auth
+from firebase_admin._auth_utils import InvalidIdTokenError
 from datetime import datetime
 from typing import Optional, List
-
 
 import crud
 from config import get_db, get_firebase_auth
@@ -83,15 +83,32 @@ async def websocket(websocket: WebSocket):
 @router.websocket("/{user_uid}/shadowQuestions/ws")
 async def get_shadow_questions_ws(
         websocket: WebSocket,
-        user_uid: str
+        user_uid: str,
+        token: str
 ):
     await websocket.accept()
-    await websocket.send_json({"msg": "Hello WebSocket"})
+
+    try:
+        decoded_token = auth.verify_id_token(token)
+        user = auth.get_user(decoded_token["uid"])
+    except InvalidIdTokenError:
+        await websocket.send_json({"msg": "Wrong number of segments in token"})
+        await websocket.close()
+        return
+
+    if user.uid != user_uid:
+        await websocket.send_json({"msg": "Connection refused"})
+        await websocket.close()
+        return
+    else:
+        await websocket.send_json({"msg": "Connection succes"})
+
     active_websockets[user_uid] = websocket
     try:
         while True:
             # You can listen for messages from the client if needed
             data = await websocket.receive_text()
+
             # Handle the received data as needed
     except WebSocketDisconnect:
         # Remove the websocket connection from the global set when it's closed
@@ -117,6 +134,7 @@ def custom_encoder(obj):
 
 async def send_notification(target):
     user_uid = target.user_uid
+    print(user_uid)
     if user_uid in active_websockets:
         # Fetch all ShadowQuestionInDb for the given user_uid
         shadow_questions_in_db = await crud.users.get_shadow_questions(db=session, user_uid=user_uid)
