@@ -10,7 +10,7 @@ async def get_user(db: AsyncSession, user_uid: str) -> Optional[UserInDb]:
 
 async def create_user(db: AsyncSession, user: UserCreate) -> UserInDb:
     user_in_db = UserInDb(**user.__dict__)
-    await db.add(user_in_db)
+    db.add(user_in_db)
     await db.commit()
     await db.refresh(user_in_db)
     return user_in_db
@@ -26,5 +26,7 @@ async def get_recommended_shadow_questions(db: AsyncSession, user_uid: str) -> [
     return result.scalars().all()
 
 async def get_shadow_questions(db: AsyncSession, user_uid: str) -> Optional[ShadowQuestionInDb]:
-    result = await db.execute(select(ShadowQuestionInDb).filter(ShadowQuestionInDb.user_uid == user_uid))
-    return result.scalars().all()
+    stms = select(ShadowQuestionInDb).filter(ShadowQuestionInDb.user_uid == user_uid)
+    result = await db.execute(stms)
+    shadow_question_in_db = result.scalars().all()
+    return shadow_question_in_db

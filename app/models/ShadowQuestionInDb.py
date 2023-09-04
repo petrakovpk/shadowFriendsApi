@@ -13,5 +13,5 @@ class ShadowQuestionInDb(Base):
     text = Column("text", VARCHAR)
     status = Column("status", VARCHAR, nullable=False)
     created = Column("created", TIMESTAMP(timezone=True), nullable=False)
-    last_update = Column("last_update", TIMESTAMP(timezone=True), nullable=False)
     user_uid = Column("user_uid", VARCHAR, nullable=False)
+    upload_date = Column("upload_date", TIMESTAMP(timezone=True), nullable=True)

@@ -15,7 +15,7 @@ async def get_skip(db: AsyncSession, skip_uuid: uuid4) -> Optional[SkipInDb]:
 
 async def create_skip(db: AsyncSession, skip: SkipCreate) -> Optional[SkipInDb]:
     skip_in_db = SkipInDb(**skip.__dict__)
-    await db.add(skip_in_db)
+    db.add(skip_in_db)
     await db.commit()
     await db.refresh(skip_in_db)
     return skip_in_db

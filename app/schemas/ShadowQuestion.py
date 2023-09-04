@@ -1,17 +1,12 @@
-from pydantic import BaseModel, UUID4
+from pydantic import UUID4
 from datetime import datetime
+from config import SFBaseModel
+from typing import Optional
 
-class ShadowQuestionBase(BaseModel):
+class ShadowQuestionBase(SFBaseModel):
     text: str
     status: str
-    last_update: datetime
-
-    class Config:
-        orm_mode = True
-        json_encoders = {
-            datetime: lambda v: v.strftime("%Y-%m-%dT%H:%M:%S%z"),
-            UUID4: lambda v: str(v)
-        }
+    upload_date: Optional[datetime]
 
 class ShadowQuestionCreate(ShadowQuestionBase):
     uuid: UUID4
@@ -25,6 +20,7 @@ class ShadowQuestion(ShadowQuestionBase):
     uuid: UUID4
     created: datetime
     user_uid: str
+
 
 
 

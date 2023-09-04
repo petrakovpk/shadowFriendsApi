@@ -25,7 +25,6 @@ async def get_shadow_answer(
 
     return shadow_answer_in_db
 
-
 @router.put("/{shadow_answer_uuid}", response_model=ShadowAnswer, status_code=200)
 async def update_shadow_answer(
         shadow_answer_uuid: UUID4,

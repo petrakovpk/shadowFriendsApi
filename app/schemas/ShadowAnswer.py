@@ -1,7 +1,9 @@
-from pydantic import BaseModel, UUID4
+from pydantic import UUID4
 from datetime import datetime
+from config import SFBaseModel
 
-class ShadowAnswerBase(BaseModel):
+
+class ShadowAnswerBase(SFBaseModel):
     text: str
     status: str
     last_update: datetime

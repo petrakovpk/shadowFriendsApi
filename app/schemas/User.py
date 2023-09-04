@@ -1,7 +1,7 @@
-from pydantic import BaseModel
 from datetime import datetime
+from config import SFBaseModel
 
-class UserBase(BaseModel):
+class UserBase(SFBaseModel):
     uid: str
 
 class UserCreate(UserBase):

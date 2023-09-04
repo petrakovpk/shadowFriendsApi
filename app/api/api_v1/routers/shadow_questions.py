@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from firebase_admin import auth
@@ -39,12 +40,14 @@ async def update_shadow_question(
 
     if shadow_question_in_db is None:
         shadow_question_create = ShadowQuestionCreate(**shadow_question.__dict__)
-        crud.shadow_questions.create_shadow_question(db=db, shadow_question=shadow_question_create)
-        return shadow_question_create
+        shadow_question_create.upload_date = datetime.now().replace(microsecond=0)
+        result = await crud.shadow_questions.create_shadow_question(db=db, shadow_question=shadow_question_create)
+        return result
 
     check_object_authorization(shadow_question_in_db, firebase_user)
 
     shadow_question_update = ShadowQuestionUpdate(**shadow_question.__dict__)
+    shadow_question_update.upload_date = datetime.now().replace(microsecond=0)
     result = await crud.shadow_questions.update_shadow_question(db=db, shadow_question_uuid=shadow_question_uuid, shadow_question=shadow_question_update)
 
     return result

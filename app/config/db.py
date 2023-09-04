@@ -30,8 +30,8 @@ AsyncSessionLocal = sessionmaker(
 session = AsyncSessionLocal()
 
 async def get_db():
+    db = AsyncSessionLocal()
     try:
-        db = AsyncSessionLocal()
         yield db
     finally:
         await db.close()
@@ -55,3 +55,11 @@ class Base(DeclarativeBase):
             await db.merge(self)
             await db.commit()
             await db.refresh(self)
+
+
+class SFBaseModel(BaseModel):
+    class Config:
+        orm_mode = True
+        json_encoders = {
+            datetime: lambda v: (v.replace(microsecond=int(v.microsecond/10000)*10000)).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        }
