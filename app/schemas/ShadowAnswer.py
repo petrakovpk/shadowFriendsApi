@@ -1,12 +1,13 @@
 from pydantic import UUID4
 from datetime import datetime
 from config import SFBaseModel
+from typing import Optional
 
 
 class ShadowAnswerBase(SFBaseModel):
     text: str
     status: str
-    last_update: datetime
+    upload_date: Optional[datetime]
 
 class ShadowAnswerCreate(ShadowAnswerBase):
     uuid: UUID4
@@ -22,13 +23,4 @@ class ShadowAnswer(ShadowAnswerBase):
     created: datetime
     user_uid: str
     question_uuid: UUID4
-
-    class Config:
-        orm_mode = True
-        json_encoders = {
-            datetime: lambda v: v.strftime("%Y-%m-%dT%H:%M:%S%z")
-        }
-
-
-
 
