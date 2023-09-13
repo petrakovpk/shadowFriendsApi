@@ -22,7 +22,7 @@ async def create_shadow_question(db: AsyncSession, shadow_question: ShadowQuesti
     return shadow_questions_in_db
 
 async def get_shadow_answers(db: AsyncSession, shadow_question_uuid: uuid4) -> [ShadowAnswerInDb]:
-    stmt = select(ShadowAnswerInDb).where(ShadowAnswerInDb.question_uuid == shadow_question_uuid)
+    stmt = select(ShadowAnswerInDb).where(ShadowAnswerInDb.shadow_question_uuid == shadow_question_uuid)
     result = await db.execute(stmt)
     shadow_questions_in_db = result.scalars().all()
     return shadow_questions_in_db

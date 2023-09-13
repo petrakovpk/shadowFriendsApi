@@ -2,7 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, auth
 from fastapi import HTTPException, Header
 
-cred = credentials.Certificate("app/security/shadowfriends-b81a1-firebase-adminsdk-bbksz-a1a83d2739.json")
+cred = credentials.Certificate("security/shadowfriends-b81a1-firebase-adminsdk-bbksz-a1a83d2739.json")
 app = firebase_admin.initialize_app(cred)
 
 def get_firebase_auth(authorization: str = Header(None)):
