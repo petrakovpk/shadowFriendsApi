@@ -8,7 +8,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.websockets import WebSocket, WebSocketDisconnect
 from sqlalchemy import event
 from sqlalchemy.orm import Session
-from sqlalchemy.ext.asyncio import AsyncSession
 from uuid import UUID
 
 from pydantic import UUID4

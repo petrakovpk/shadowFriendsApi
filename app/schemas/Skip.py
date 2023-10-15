@@ -1,8 +1,8 @@
 from pydantic import UUID4
 from datetime import datetime
-from config import SFBaseModel
+from config import CustomBaseModel
 
-class SkipBase(SFBaseModel):
+class SkipBase(CustomBaseModel):
     uuid: UUID4
     created: datetime
     user_uid: str
@@ -12,11 +12,5 @@ class SkipCreate(SkipBase):
     pass
 
 class Skip(SkipBase):
-
-    class Config:
-        orm_mode = True
-        json_encoders = {
-            datetime: lambda v: v.strftime("%Y-%m-%dT%H:%M:%S%z")
-        }
-
+    pass
 

@@ -1,9 +1,9 @@
 from pydantic import UUID4
 from datetime import datetime
-from config import SFBaseModel
+from config import CustomBaseModel
 from typing import Optional
 
-class ShadowQuestionBase(SFBaseModel):
+class ShadowQuestionBase(CustomBaseModel):
     text: str
     status: str
     upload_date: Optional[datetime]

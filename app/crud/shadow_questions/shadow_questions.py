@@ -7,12 +7,14 @@ from uuid import uuid4
 from models import ShadowQuestionInDb, ShadowAnswerInDb
 from schemas import ShadowQuestionCreate, ShadowQuestionUpdate
 
+import gc
+
+
 async def get_shadow_question(db: AsyncSession, shadow_question_uuid: uuid4) -> Optional[ShadowQuestionInDb]:
     stmt = select(ShadowQuestionInDb).where(ShadowQuestionInDb.uuid == shadow_question_uuid)
     result = await db.execute(stmt)
     shadow_questions_in_db = result.scalar_one_or_none()
     return shadow_questions_in_db
-
 
 async def create_shadow_question(db: AsyncSession, shadow_question: ShadowQuestionCreate) -> Optional[ShadowQuestionInDb]:
     shadow_questions_in_db = ShadowQuestionInDb(**shadow_question.__dict__)

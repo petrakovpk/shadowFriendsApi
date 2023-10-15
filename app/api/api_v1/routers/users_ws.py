@@ -1,6 +1,5 @@
 import asyncio
 import json
-import websockets
 from datetime import datetime
 from fastapi import APIRouter
 from fastapi.websockets import WebSocket, WebSocketDisconnect
