@@ -2,7 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel
 from uuid import UUID
 
-class CustomBaseModel(BaseModel):
+class BaseModel(BaseModel):
     class Config:
         orm_mode = True
         json_encoders = {

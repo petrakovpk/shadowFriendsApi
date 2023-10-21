@@ -4,7 +4,8 @@ from firebase_admin import auth
 from pydantic import UUID4
 
 import crud
-from config import get_db, get_firebase_auth
+from db import get_db
+from firebase import get_firebase_auth
 from helpers import check_user_authorization, check_object_authorization
 from schemas import SkipCreate, Skip
 

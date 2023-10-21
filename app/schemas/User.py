@@ -1,9 +1,9 @@
 from datetime import datetime
 from typing import Optional
 
-from config import CustomBaseModel
+from config import BaseModel
 
-class UserBase(CustomBaseModel):
+class UserBase(BaseModel):
     uid: str
     fcm_token: Optional[str]
 

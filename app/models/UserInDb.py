@@ -1,6 +1,6 @@
 from sqlalchemy import Column, TIMESTAMP, VARCHAR
 
-from config import Base
+from db import Base
 
 class UserInDb(Base):
     __tablename__ = 'users'

@@ -5,7 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 
 import crud
-from config import get_db, get_firebase_auth
+from db import get_db
+from firebase import get_firebase_auth
 from helpers import check_user_authorization, check_object_authorization
 from schemas import UserBase, UserCreate, UserUpdate, User, ShadowQuestion, ShadowAnswer
 

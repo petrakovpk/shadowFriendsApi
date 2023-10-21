@@ -2,7 +2,7 @@ import json
 from sqlalchemy import Column, TIMESTAMP, VARCHAR, UUID
 from sqlalchemy.orm import Session
 
-from config import Base
+from db import Base
 from schemas import ShadowQuestionUpdate
 
 

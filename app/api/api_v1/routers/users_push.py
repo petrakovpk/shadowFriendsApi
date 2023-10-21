@@ -10,7 +10,7 @@ import dateutil.parser
 from uuid import UUID
 
 import crud
-from config import AsyncSessionLocal
+from db import AsyncSessionLocal
 from models import ShadowQuestionInDb, ShadowAnswerInDb
 from schemas import ShadowQuestion, ShadowAnswer
 
@@ -46,7 +46,6 @@ async def send_shadow_question_push(shadow_question_in_db: ShadowQuestionInDb):
 
         response = messaging.send(message)
         return response
-
 
 async def send_shadow_answer_push(shadow_answer_in_db: ShadowAnswerInDb):
     async with AsyncSessionLocal() as db:

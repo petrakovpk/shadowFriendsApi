@@ -1,6 +1,6 @@
 from sqlalchemy import Column, TIMESTAMP, VARCHAR, UUID
 
-from config import Base
+from db import Base
 
 class SkipInDb(Base):
     __tablename__ = 'skips'

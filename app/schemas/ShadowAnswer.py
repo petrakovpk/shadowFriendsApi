@@ -1,10 +1,10 @@
 from pydantic import UUID4
 from datetime import datetime
-from config import CustomBaseModel
+from config import BaseModel
 from typing import Optional
 
 
-class ShadowAnswerBase(CustomBaseModel):
+class ShadowAnswerBase(BaseModel):
     text: str
     upload_date: Optional[datetime]
 

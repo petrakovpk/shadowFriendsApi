@@ -1,12 +1,13 @@
-import firebase_admin
-from firebase_admin import credentials, auth
+from firebase_admin import credentials, auth, initialize_app
 from fastapi import HTTPException, Header
 
+from config import AUTHORIZATION_SERVER_KEY, SERVER_TYPE
+
 cred = credentials.Certificate("security/shadowfriends-b81a1-firebase-adminsdk-bbksz-a1a83d2739.json")
-app = firebase_admin.initialize_app(cred)
+app = initialize_app(cred)
 
 def get_firebase_auth(authorization: str = Header(None)):
-    if authorization == "Bearer PASHA_SECRET_KEY":
+    if authorization == AUTHORIZATION_SERVER_KEY and SERVER_TYPE == 'DEV':
         uid = 'nAGy29cq5yPc0ZGeMI5Kf2JxuK02'
         user = auth.get_user(uid)
         return user

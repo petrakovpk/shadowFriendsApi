@@ -1,8 +1,8 @@
 from pydantic import UUID4
 from datetime import datetime
-from config import CustomBaseModel
+from config import BaseModel
 
-class SkipBase(CustomBaseModel):
+class SkipBase(BaseModel):
     uuid: UUID4
     created: datetime
     user_uid: str

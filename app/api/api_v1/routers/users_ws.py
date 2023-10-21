@@ -10,7 +10,7 @@ from uuid import UUID
 from websockets.exceptions import ConnectionClosedError
 
 import crud
-from config import AsyncSessionLocal
+from db import AsyncSessionLocal
 from models import ShadowQuestionInDb, ShadowAnswerInDb
 from schemas import ShadowQuestion, ShadowAnswer
 

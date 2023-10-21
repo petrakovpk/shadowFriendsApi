@@ -1,3 +1,2 @@
-from .db import Base, engine, session, get_db, AsyncSessionLocal
-from .firebase import get_firebase_auth, app
-from .model import CustomBaseModel
+from .config import POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_PORT, POSTGRES_SERVER, POSTGRES_DB, AUTHORIZATION_SERVER_KEY, SERVER_TYPE
+from .model import BaseModel
