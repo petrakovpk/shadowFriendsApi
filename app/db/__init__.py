@@ -1,1 +1,1 @@
-from .db import AsyncSessionLocal, Base, get_db
+from .db import AsyncSessionLocal, Base, get_db, session

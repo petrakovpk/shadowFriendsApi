@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from firebase_admin import auth, messaging
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
+from uuid import uuid4
 
 import crud
 from db import get_db
@@ -70,17 +71,6 @@ async def get_shadow_questions(
 ):
     check_user_authorization(firebase_user)
 
-    result = await crud.users.get_shadow_questions(db=db, user_uid=user_uid)
-    return result
+    shadow_questions_in_db = await crud.users.get_shadow_questions(db=db, user_uid=user_uid)
 
-
-@router.get("/{user_uid}/shadowQuestions/shadowAnswers", response_model=List[ShadowAnswer], status_code=200)
-async def get_shadow_questions_shadow_answers(
-        user_uid: str,
-        db: AsyncSession = Depends(get_db),
-        firebase_user: auth.UserRecord = Depends(get_firebase_auth)
-):
-    check_user_authorization(firebase_user)
-
-    result = await crud.shadow_answers.get_shadow_questions_shadow_answers(db=db, user_uid=user_uid)
-    return result
+    return shadow_questions_in_db

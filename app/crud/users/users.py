@@ -40,3 +40,9 @@ async def get_shadow_questions(db: AsyncSession, user_uid: str) -> List[ShadowQu
     result = await db.execute(stms)
     shadow_questions_in_db = result.scalars().all()
     return shadow_questions_in_db
+
+async def get_shadow_answers(db: AsyncSession, user_uid: str) -> List[ShadowAnswerInDb]:
+    stms = select(ShadowAnswerInDb).filter(ShadowAnswerInDb.user_uid == user_uid)
+    result = await db.execute(stms)
+    shadow_answers_in_db = result.scalars().all()
+    return shadow_answers_in_db

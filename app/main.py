@@ -8,7 +8,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.websockets import WebSocket
 from fastapi.testclient import TestClient
 
-
 from api import router
 
 app = FastAPI()

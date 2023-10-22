@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
@@ -7,14 +7,23 @@ from uuid import uuid4
 from models import ShadowQuestionInDb, ShadowAnswerInDb
 from schemas import ShadowQuestionCreate, ShadowQuestionUpdate
 
-import gc
-
-
 async def get_shadow_question(db: AsyncSession, shadow_question_uuid: uuid4) -> Optional[ShadowQuestionInDb]:
     stmt = select(ShadowQuestionInDb).where(ShadowQuestionInDb.uuid == shadow_question_uuid)
     result = await db.execute(stmt)
     shadow_questions_in_db = result.scalar_one_or_none()
     return shadow_questions_in_db
+
+async def get_shadow_answer(db: AsyncSession, shadow_question_uuid: uuid4) -> [ShadowAnswerInDb]:
+    stmt = select(ShadowAnswerInDb).where(ShadowAnswerInDb.shadow_question_uuid == shadow_question_uuid)
+    result = await db.execute(stmt)
+    shadow_questions_in_db = result.scalars().all()
+    return shadow_questions_in_db
+
+async def get_shadow_answers(db: AsyncSession, shadow_questions_uuid: List[uuid4]) -> List[ShadowAnswerInDb]:
+    stmt = select(ShadowAnswerInDb).where(ShadowAnswerInDb.shadow_question_uuid.in_(shadow_questions_uuid))
+    result = await db.execute(stmt)
+    shadow_answers_in_db = result.scalars().all()
+    return shadow_answers_in_db
 
 async def create_shadow_question(db: AsyncSession, shadow_question: ShadowQuestionCreate) -> Optional[ShadowQuestionInDb]:
     shadow_questions_in_db = ShadowQuestionInDb(**shadow_question.__dict__)
@@ -22,13 +31,6 @@ async def create_shadow_question(db: AsyncSession, shadow_question: ShadowQuesti
     await db.commit()
     await db.refresh(shadow_questions_in_db)
     return shadow_questions_in_db
-
-async def get_shadow_answers(db: AsyncSession, shadow_question_uuid: uuid4) -> [ShadowAnswerInDb]:
-    stmt = select(ShadowAnswerInDb).where(ShadowAnswerInDb.shadow_question_uuid == shadow_question_uuid)
-    result = await db.execute(stmt)
-    shadow_questions_in_db = result.scalars().all()
-    return shadow_questions_in_db
-
 
 async def update_shadow_question(db: AsyncSession, shadow_question_uuid: uuid4, shadow_question: ShadowQuestionUpdate) -> Optional[ShadowQuestionInDb]:
     shadow_question_in_db = await get_shadow_question(db=db, shadow_question_uuid=shadow_question_uuid)

@@ -1,7 +1,7 @@
 from pydantic import UUID4
 from datetime import datetime
 from config import BaseModel
-from typing import Optional
+from typing import List, Optional
 
 class ShadowQuestionBase(BaseModel):
     text: str
@@ -21,7 +21,8 @@ class ShadowQuestion(ShadowQuestionBase):
     created: datetime
     user_uid: str
 
-
+class ListUUID(BaseModel):
+    uuids: List[UUID4]
 
 
 

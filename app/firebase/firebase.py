@@ -7,7 +7,7 @@ cred = credentials.Certificate("security/shadowfriends-b81a1-firebase-adminsdk-b
 app = initialize_app(cred)
 
 def get_firebase_auth(authorization: str = Header(None)):
-    if authorization == AUTHORIZATION_SERVER_KEY and SERVER_TYPE == 'DEV':
+    if authorization == 'Bearer ' + AUTHORIZATION_SERVER_KEY and SERVER_TYPE == 'DEV':
         uid = 'nAGy29cq5yPc0ZGeMI5Kf2JxuK02'
         user = auth.get_user(uid)
         return user
